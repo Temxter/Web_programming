@@ -1,0 +1,3 @@
+INSERT INTO public.questions (id, question, test_id) VALUES (1, 'Дата основания Республики Беларусь - ', 1);
+INSERT INTO public.questions (id, question, test_id) VALUES (2, 'Официальные языки Республики Беларусь:', 1);
+INSERT INTO public.questions (id, question, test_id) VALUES (3, 'Дана правильная четырехугольная пирамида. Вычислите ее объем, если ее высота равна 7 см, a сторона основания составляет – 2 см.', 2);

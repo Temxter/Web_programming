@@ -1,0 +1,11 @@
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (1, '19 сентября 1991', true, 1);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (2, '10 ноября 1990', false, 1);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (3, '29 августа 1991', false, 1);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (4, 'Идиш, русский, белорусский', false, 2);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (5, 'Русский', false, 2);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (6, 'Белорусский', false, 2);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (7, 'Русский, белорусский', true, 2);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (8, '14/3', false, 3);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (9, '28/3', true, 3);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (11, '14', false, 3);
+INSERT INTO public.answers (id, answer, isright, question_id) VALUES (10, '28', false, 3);
