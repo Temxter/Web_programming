@@ -1,4 +1,4 @@
-package Model.HighLevel;
+package Model.Entities;
 
 import javax.persistence.*;
 import java.io.Serializable;

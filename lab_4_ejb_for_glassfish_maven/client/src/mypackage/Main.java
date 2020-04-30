@@ -1,15 +1,14 @@
 package mypackage;
 
-import Model.Dao.DaoStudent;
-import Model.HighLevel.Answer;
-import Model.HighLevel.Student;
+import Model.Entities.Student;
 
 import javax.ejb.EJB;
 import java.util.List;
 
 public class Main {
+
     @EJB
-    static DaoStudent daoStudent;
+    static model.DaoStudent daoStudent;
 
     public static void main(String[] args) {
         List<Student> students = daoStudent.getAll();

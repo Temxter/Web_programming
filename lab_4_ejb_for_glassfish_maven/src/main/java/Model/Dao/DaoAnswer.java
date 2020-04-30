@@ -1,15 +1,14 @@
 package model;
 
-import Model.HighLevel.Answer;
+import Model.Entities.Answer;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class DaoAnswer implements Dao<Answer>, Serializable {
+public class DaoAnswer implements model.Dao<Answer>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

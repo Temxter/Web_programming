@@ -1,8 +1,7 @@
 package model;
 
-import Model.HighLevel.Student;
+import Model.Entities.Student;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class DaoStudent implements Dao<Student>, Serializable {
+public class DaoStudent implements model.Dao<Student>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

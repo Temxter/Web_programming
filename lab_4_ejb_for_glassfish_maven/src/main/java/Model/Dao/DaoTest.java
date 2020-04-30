@@ -1,8 +1,7 @@
 package model;
 
-import Model.HighLevel.Test;
+import Model.Entities.Test;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class DaoTest implements Dao<Test>, Serializable {
+public class DaoTest implements model.Dao<Test>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

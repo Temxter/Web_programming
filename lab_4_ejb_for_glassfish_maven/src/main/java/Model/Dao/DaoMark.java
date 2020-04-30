@@ -1,8 +1,7 @@
 package model;
 
-import Model.HighLevel.Mark;
+import Model.Entities.Mark;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class DaoMark implements Dao<Mark>, Serializable {
+public class DaoMark implements model.Dao<Mark>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

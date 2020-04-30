@@ -1,8 +1,7 @@
 package model;
 
-import Model.HighLevel.Question;
+import Model.Entities.Question;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class DaoQuestion implements Dao<Question>, Serializable {
+public class DaoQuestion implements model.Dao<Question>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
