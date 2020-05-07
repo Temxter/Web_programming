@@ -1,9 +1,9 @@
 package model.Dao;
 
 
-import model.HighLevel.Test;
+import model.Entities.Test;
 
-import javax.ejb.LocalBean;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,15 +13,13 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class DaoTest implements Dao<Test>, Serializable {
+@Local
+public class DaoTest {
 
-    private static final long serialVersionUID = 1L;
-
-    @PersistenceContext(name = "questionUnit", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(name = "questionUnit")
     EntityManager entityManager;
 
-    @Override
-    public Test get(long id) {
+    public Test get(int id) {
         return entityManager.find(Test.class, id);
     }
 
@@ -30,17 +28,14 @@ public class DaoTest implements Dao<Test>, Serializable {
         return query.getResultList();
     }
 
-    @Override
     public void save(Test test) {
         entityManager.persist(test);
     }
 
-    @Override
     public void update(Test test) {
         entityManager.merge(test);
     }
 
-    @Override
     public void delete(Test test) {
         entityManager.remove(test);
     }

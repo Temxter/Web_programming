@@ -1,9 +1,9 @@
 package model.Dao;
 
 
-import model.HighLevel.Question;
+import model.Entities.Question;
 
-import javax.ejb.LocalBean;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,35 +13,31 @@ import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class DaoQuestion implements Dao<Question>, Serializable {
+@Local
+public class DaoQuestion {
 
     private static final long serialVersionUID = 1L;
 
-    @PersistenceContext(name = "questionUnit", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(name = "questionUnit")
     EntityManager entityManager;
 
-    @Override
-    public Question get(long id) {
+    public Question get(int id) {
         return entityManager.find(Question.class, id);
     }
 
-    @Override
     public List<Question> getAll() {
         Query query = entityManager.createQuery("FROM QUESTIONS");
         return query.getResultList();
     }
 
-    @Override
     public void save(Question question) {
         entityManager.persist(question);
     }
 
-    @Override
     public void update(Question question) {
         entityManager.merge(question);
     }
 
-    @Override
     public void delete(Question question) {
         entityManager.remove(question);
     }

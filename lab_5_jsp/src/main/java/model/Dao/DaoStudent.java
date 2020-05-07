@@ -1,47 +1,42 @@
 package model.Dao;
 
 
-import model.HighLevel.Student;
+import model.Entities.Student;
 
-import javax.ejb.LocalBean;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class DaoStudent implements Dao<Student>, Serializable {
+@Local
+public class DaoStudent {
 
-    private static final long serialVersionUID = 1L;
-
-    @PersistenceContext(name = "questionUnit", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(name = "questionUnit")
     EntityManager entityManager;
 
-    @Override
-    public Student get(long id) {
+    public Student get(int id) {
         return entityManager.find(Student.class, id);
     }
 
-    @Override
     public List<Student> getAll() {
         Query query = entityManager.createQuery("FROM STUDENTS");
         return query.getResultList();
     }
 
-    @Override
     public void save(Student student) {
         entityManager.persist(student);
     }
 
-    @Override
     public void update(Student student) {
         entityManager.merge(student);
     }
 
-    @Override
     public void delete(Student student) {
         entityManager.remove(student);
     }

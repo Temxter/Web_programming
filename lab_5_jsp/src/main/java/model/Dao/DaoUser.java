@@ -1,17 +1,19 @@
 package model.Dao;
 
-import model.HighLevel.Student;
-import model.HighLevel.User;
+import model.Entities.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.Query;
+import javax.ejb.EnterpriseBean;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.persistence.*;
+import javax.transaction.Transaction;
 import java.util.List;
 
-public class DaoUser implements Dao<User> {
+@Stateless
+@Local
+public class DaoUser {
 
-    @PersistenceContext(name = "questionUnit", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(name = "questionUnit")
     EntityManager entityManager;
 
     public User authorizationUser(String login, String password)  {
@@ -23,7 +25,7 @@ public class DaoUser implements Dao<User> {
         // DB must check
         //        if (users.size() > 1)
         //            throw new DaoException("Users with equals login and password more then one. Amount = " + users.size());
-        if (users == null)
+        if (users == null || users.isEmpty())
             return null;
         //if (users.size() == 1)
         return users.get(0);
@@ -33,34 +35,28 @@ public class DaoUser implements Dao<User> {
         Query query = entityManager.createQuery("FROM USERS WHERE login = :login");
         query.setParameter("login", login);
         List<User> users = query.getResultList();
-        if (users == null)
+        if (users == null || users.isEmpty())
             return null;
         return users.get(0);
     }
 
-
-    @Override
-    public User get(long id) {
+    public User get(int id) {
         return entityManager.find(User.class, id);
     }
 
-    @Override
     public List<User> getAll() {
         Query query = entityManager.createQuery("FROM USERS");
         return query.getResultList();
     }
 
-    @Override
     public void save(User user) {
         entityManager.persist(user);
     }
 
-    @Override
     public void update(User user) {
         entityManager.merge(user);
     }
 
-    @Override
     public void delete(User user) {
         entityManager.remove(user);
     }
