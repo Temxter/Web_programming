@@ -8,10 +8,6 @@
 <%--For first execute: insert data from file "insert_data.sql"--%>
 <h1 align="center">Main page</h1>
 
-<form action="${pageContext.request.contextPath}/singleServlet" method="post" style="text-align: left;">
-    <input type="hidden" name="type" value="insertAllData">
-    <input type="submit" value="Insert all data" style="background-color: green;">
-</form>
 <jsp:include page="/add/header.jsp" flush="true"/>
 <div style="text-align: center">
     <p>This is a system for testing students.</p>

@@ -8,6 +8,5 @@ public enum CommandType {
     test,
     teacher,
     assignTest,
-    insertAllData,
     createTest
 }

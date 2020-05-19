@@ -1,25 +1,24 @@
-package main.java.model.Dao;
+package model.Dao;
 
-import main.java.model.Connector.JpaManager;
-import org.eclipse.persistence.sessions.Session;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
-import java.util.function.Consumer;
 
 public abstract class DaoAbstract<T> {
 
-    @PersistenceContext(unitName = "questionUnit")
-    private EntityManager entityManager;
+    static private EntityManagerFactory entityManagerFactory = null;
+    //@PersistenceContext(unitName = "questionUnit")
+    private EntityManager entityManager;// = Persistence.createEntityManagerFactory("questionUnit").createEntityManager();
 
     private Class<T> entityBeanType;
     private String entityName;
 
     public DaoAbstract(Class<T> entityBeanType) {
         this.entityBeanType = entityBeanType;
+        if (entityManagerFactory == null) {
+            entityManagerFactory = Persistence.createEntityManagerFactory("questionUnit");
+        }
+        entityManager = entityManagerFactory.createEntityManager();
         entityName = entityManager.getMetamodel().entity(entityBeanType).getName();
     }
 
@@ -29,6 +28,14 @@ public abstract class DaoAbstract<T> {
 
     protected EntityManager getEntityManager() {
         return entityManager;
+    }
+
+    protected void closeEntityManager(){
+        entityManager.close();
+    }
+
+    protected String getEntityName() {
+        return entityName;
     }
 
     public T get(int id) {

@@ -17,11 +17,11 @@ public class SecurityFilter implements Filter {
             try {
                 CommandType commandType = CommandType.valueOf(commandTypeString);
                 User user = (User) req.getSession().getAttribute("user");
+                //add commandType for not logined users
                 if (user == null &&
                         !(commandType.equals(CommandType.login)
                         || commandType.equals(CommandType.register)
-                        || commandType.equals(CommandType.logout)
-                        || commandType.equals(CommandType.insertAllData))) {
+                        || commandType.equals(CommandType.logout))) {
                     req.getServletContext().log("SecurityFilter: guest have not access to logined users functions!");
                     req.setAttribute("message", "Guest have not access to logined users functions!");
                     return;

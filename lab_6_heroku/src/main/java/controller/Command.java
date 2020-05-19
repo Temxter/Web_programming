@@ -74,8 +74,7 @@ public class Command {
                 url = teacher();
             case assignTest:
                 url = assignTest();
-            case insertAllData:
-                url = insertDataFromFile();
+//                url = insertDataFromFile();
         }
         return url;
     }
@@ -85,9 +84,9 @@ public class Command {
 
         //TODO check User is teacher. (in filter)
 
-        List<Test> tests = servlet.getDaoTest().getAll();
-        List<Student> students = servlet.getDaoStudent().getAll();
-        List<Mark> marks = servlet.getDaoMark().getAll();
+        List<Test> tests = new DaoTest().getAll();
+        List<Student> students = new DaoStudent().getAll();
+        List<Mark> marks = new DaoMark().getAll();
 
         request.setAttribute(attrStudents, students);
         request.setAttribute(attrTests, tests);
@@ -101,10 +100,10 @@ public class Command {
 
         servlet.log("StudentId = " + studentId + " + testId = " + testId);
 
-        Student student = servlet.getDaoStudent().get(studentId);
-        Test test = servlet.getDaoTest().get(testId);
+        Student student = new DaoStudent().get(studentId);
+        Test test = new DaoTest().get(testId);
         Mark newAppoint = new Mark(Mark.NEW_TEST, test, student, new Date());
-        servlet.getDaoMark().save(newAppoint);
+        new DaoMark().save(newAppoint);
 
         setMessage(test.getName() + " appoint to " + student.getName() + ".");
         return teacher();
@@ -114,7 +113,7 @@ public class Command {
     private static int testResult = 0;
 
     private String test() {
-        DaoTest daoTest = servlet.getDaoTest();
+        DaoTest daoTest = new DaoTest();
         String testIdString = request.getParameter("testId");
         Test test = null;
         int questionNum = 1;
@@ -142,6 +141,7 @@ public class Command {
             String answer = request.getParameter("answer");
 
             servlet.log("User " + getLoggedUser(request.getSession(false)) + " answered " + answer);
+            servlet.log("prevQuestion = " + prevQuestion);
 
             if (answer != null) {
                 // 1, 2, 3...
@@ -154,14 +154,14 @@ public class Command {
         }
 
         Question question = test.getQuestion(questionNum - 1);
-
+        servlet.log("question = " + question);
 
         if (question == null) {
 
             //todo write result
             Mark mark = new Mark(testResult, test,
                     getLoggedUser(request.getSession(false)).getStudent(), new Date());
-            servlet.getDaoMark().save(mark);
+            new DaoMark().save(mark);
             //need to delete passed test (delete mark or fix mark from -1 to well mark)
             // message finish test
             setMessage("You are finished test: " + test.getName());
@@ -175,8 +175,8 @@ public class Command {
     private String student() throws ServletException, IOException {
         checkLogin();
 
-        DaoMark daoMark = servlet.getDaoMark();
-        DaoStudent daoStudent = servlet.getDaoStudent();
+        DaoMark daoMark = new DaoMark();
+        DaoStudent daoStudent = new DaoStudent();
 
         // getSession(false) - not create new session if session not exist
         User user = (User) getLoggedUser(request.getSession(false));
@@ -215,7 +215,7 @@ public class Command {
 
     private String login() throws ServletException, IOException {
 
-        DaoUser daoUser = servlet.getDaoUser();
+        DaoUser daoUser = new DaoUser();
 
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -240,8 +240,8 @@ public class Command {
 
     private String register() throws ServletException, IOException {
         //todo not very good solution with such architecture
-        DaoUser daoUser = servlet.getDaoUser();
-        DaoStudent daoStudent = servlet.getDaoStudent();
+        DaoUser daoUser = new DaoUser();
+        DaoStudent daoStudent = new DaoStudent();
 
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -286,12 +286,13 @@ public class Command {
         HttpSession session = req.getSession();
         session.setAttribute(attrUser, user);
         user.updateVisit();
-        servlet.getDaoUser().update(user);
+        new DaoUser().update(user);
         //add cookies
         Cookie cookieDate = new Cookie(this.cookieLastVisit, user.getLastVisitDate().toString());
         Cookie cookieVisitCounter = new Cookie(this.cookieVisitCounter, user.getVisitCounter().toString());
-        response.addCookie(cookieDate);
-        response.addCookie(cookieVisitCounter);
+        //TODO not working on Jetty
+        //response.addCookie(cookieDate);
+        //response.addCookie(cookieVisitCounter);
     }
 
     private void setSessionAttribute(String attribute, Object o) {
@@ -316,22 +317,22 @@ public class Command {
         request.setAttribute(attrMessage, msg);
     }
 
-    private String insertDataFromFile() {
-        try {
-            BufferedReader bf = new BufferedReader(new FileReader("insert_data.sql"));
-            EntityManagerExecutor eme = servlet.getEntityManagerExecutor();
-
-            String line;
-            while ((line = bf.readLine()) != null)
-                eme.execute(line);
-
-        } catch (FileNotFoundException e) {
-            servlet.log("File to insert data not founded: " + e.getMessage());
-        } catch (Exception e) {
-            servlet.log("insertDataFromFile() exception: " + e.getMessage());
-        }
-        setMessage("Data inserted successfully! " + new Date());
-        return pageHome;
-    }
+//    private String insertDataFromFile() {
+//        try {
+//            BufferedReader bf = new BufferedReader(new FileReader("insert_data.sql"));
+//            EntityManagerExecutor eme = servlet.getEntityManagerExecutor();
+//
+//            String line;
+//            while ((line = bf.readLine()) != null)
+//                eme.execute(line);
+//
+//        } catch (FileNotFoundException e) {
+//            servlet.log("File to insert data not founded: " + e.getMessage());
+//        } catch (Exception e) {
+//            servlet.log("insertDataFromFile() exception: " + e.getMessage());
+//        }
+//        setMessage("Data inserted successfully! " + new Date());
+//        return pageHome;
+//    }
 
 }

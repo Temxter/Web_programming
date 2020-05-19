@@ -17,3 +17,9 @@ _*
 
 # properties
 *.properties
+
+jetty-env.xml
+persistence.xml
+*.iml
+*deploy
+*target
