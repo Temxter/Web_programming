@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Locale;
 
-@WebFilter(filterName = "LanguageFilter", urlPatterns = {"/*"})
+@WebFilter(filterName = "LanguageFilter", urlPatterns = {"*"})
 public class LocaleFilter implements Filter {
 
     private String attrLocale = "userLocale";

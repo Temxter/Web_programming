@@ -18,8 +18,8 @@ public class TagGetUser extends TagSupport {
         List<User> users = daoUser.getAll();
         StringBuilder str = new StringBuilder();
 
-        Locale locale = pageContext.getRequest().getLocale();
-        if (locale.getLanguage().equals("ru")) {
+        Locale locale = (Locale)pageContext.getSession().getAttribute("userLocale");
+        if (locale.getLanguage().equalsIgnoreCase("ru")) {
             str.append("<table>" +
                     "<caption>" +
                     "Пользователи" +
