@@ -27,9 +27,9 @@
             <p>Вы можете зарегистрироваться только как студент.</p>
             <p>Если Вы хотите посмотреть, как выглядит функционал учителя, то Вы можете войти, как учитель, под логином "Teacher и
                 паролем "test".</p>
-
             <a href="${pageContext.request.contextPath}/auth/login.jsp">Войти</a>
             <a href="${pageContext.request.contextPath}/auth/register.jsp">Регистрация</a>
+            <b><a href="${pageContext.request.contextPath}/chat.html">Чат</a></b>
         </div>
     </c:when>
     <c:otherwise>
@@ -44,6 +44,7 @@
 
             <a href="${pageContext.request.contextPath}/auth/login.jsp">Login</a>
             <a href="${pageContext.request.contextPath}/auth/register.jsp">Register</a>
+            <b><a href="${pageContext.request.contextPath}/chat.html">Chat</a></b>
         </div>
     </c:otherwise>
 </c:choose>
