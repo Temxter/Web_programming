@@ -55,15 +55,15 @@ public class BotEndpoint {
 
             if (jmsg.getName().equalsIgnoreCase("admin#password")) {
                 session.getUserProperties().put("admin", true);
-                session.getUserProperties().put("name", "admin");
+                session.getUserProperties().put("name", username);
                 sendAll(session, new UsersMessage(this.getAdminList(session)));
-                sendAll(session, new InfoMessage(username +
-                        " has joined the chat"));
+                sendAll(session, new UsersMessage(this.getUserList(session)));
             }
             else {
                 session.getUserProperties().put("admin", false);
                 session.getUserProperties().put("name", username);
-                sendToMyself(session, new UsersMessage(this.getAdminList(session)));
+                //sendAll(session, new UsersMessage(this.getAdminList(session)));
+                sendToMyself(session, new UsersMessage(this.getUserList(session)));
                 sendAdmin(session, new InfoMessage(username +
                         " has joined the chat"));
             }
@@ -140,7 +140,7 @@ public class BotEndpoint {
             session.getBasicRemote().sendObject(msg);
 
             for (Session s : session.getOpenSessions()) {
-                if (s.isOpen() && s.getUserProperties().get("name").equals(
+                if (s.isOpen() && s.getUserProperties().getOrDefault("name", false).equals(
                         ((ChatMessage)msg).getTarget() )
                 ) {
                     s.getBasicRemote().sendObject(msg);
@@ -155,7 +155,7 @@ public class BotEndpoint {
     public synchronized void sendAdmin(Session session, Object msg) {
         try {
             for (Session s : session.getOpenSessions()) {
-                if (s.isOpen() && (boolean)s.getUserProperties().get("admin") == true) {
+                if (s.isOpen() && (boolean)s.getUserProperties().getOrDefault("admin", false) == true) {
                     s.getBasicRemote().sendObject(msg);
                     logger.log(Level.INFO, "Sent: {0}", msg.toString());
                 }
@@ -169,8 +169,8 @@ public class BotEndpoint {
     public List<String> getUserList(Session session) {
         List<String> users = new ArrayList<>();
         for (Session s : session.getOpenSessions()) {
-            if (s.isOpen() && (boolean) s.getUserProperties().get("active"))
-                users.add(s.getUserProperties().get("name").toString());
+            if (s.isOpen() && (boolean) s.getUserProperties().getOrDefault("active", false))
+                users.add(s.getUserProperties().getOrDefault("name", false).toString());
         }
         return users;
     }
@@ -178,8 +178,8 @@ public class BotEndpoint {
     public List<String> getAdminList(Session session) {
         List<String> users = new ArrayList<>();
         for (Session s : session.getOpenSessions()) {
-            if (s.isOpen() && (boolean) s.getUserProperties().get("active")
-                    && (boolean) s.getUserProperties().get("admin"))
+            if (s.isOpen() && (boolean) s.getUserProperties().getOrDefault("active", false)
+                    && (boolean) s.getUserProperties().getOrDefault("admin", false))
                 users.add(s.getUserProperties().get("name").toString());
         }
         return users;
